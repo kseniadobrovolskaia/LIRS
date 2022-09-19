@@ -5,7 +5,6 @@
 #include <iostream>
 #include <fstream>
 
-using namespace std;
 
 int get_answer(int elem);
 int get_result(int elem);
