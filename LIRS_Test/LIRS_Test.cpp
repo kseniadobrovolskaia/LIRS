@@ -7,10 +7,11 @@ int main()
 	FILE *data, *results;
 	int answers[5] = {0};
 	
-	struct Cash *LIRS = new struct Cash;
+	struct Cash *LIRS;
 	data = fopen("data.txt", "r");
 	for (int i = 0; i < 5; i++)
 	{
+		LIRS = new struct Cash;
 		fscanf(data, "%d", &n); 
 		hits = 0;
 
@@ -20,11 +21,13 @@ int main()
 			LIRS = append_elem(LIRS, elem, &hits);
 		}
 		answers[i] = hits;
+		printf("For %d elems - %d hits\n", n, hits);
+		destroy_cash(LIRS);
 	}
 
 	fclose(data);
 
-	destroy_cash(LIRS);
+	
 	results = fopen("build/results.txt", "w");
 	for (int i = 0; i < 5; i++)
 	{
@@ -268,27 +271,28 @@ struct Cash *raise_elem_in_cold(struct Cash *LIRS, int elem)
 
 void print_cash(struct Cash *LIRS)
 {
-	cout << "Lirs_stack: ";
+	std::cout << "Lirs_stack: ";
 
 	for (auto elem: LIRS->lirs_stack)
 	{
-		cout << elem << " " ;
+		std::cout << elem << " " ;
 	}
 
-	cout << endl << "Cold_cash: ";
+	std::cout << std::endl << "Cold_cash: ";
 
 	for (auto elem: LIRS->cold_cash)
 	{
-		cout << elem << " ";
+		std::cout << elem << " ";
 	}
 
-	cout << endl << "Hash_map_table:"<< endl;
+	std::cout << std::endl << "Hash_map_table:"<< std::endl;
 
-	for (unordered_set<struct Hash_map_node>::const_iterator it = LIRS->table.begin(); it != LIRS->table.end(); ++it)
+	for (std::unordered_set<struct Hash_map_node>::const_iterator it = LIRS->table.begin(); it != LIRS->table.end(); ++it)
     {
-        cout << "{" << it->st <<", "<< it->be_in_stack<< ", "<<it->num<< "}"<< endl;
+        std::cout << "{" << it->st <<", "<< it->be_in_stack<< ", "<<it->num<< "}"<< std::endl;
     }
 
 }
+
 
 
