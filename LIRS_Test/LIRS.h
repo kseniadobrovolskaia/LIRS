@@ -4,8 +4,6 @@
 #include <unordered_set>
 
 
-using namespace std;
-
 void *destroy_cash(struct Cash *LIRS);
 struct Cash *append_elem(struct Cash *LIRS, int elem, int *hits);
 int get_status(struct Hash_map table, int elem);
@@ -21,8 +19,8 @@ struct Cash *raise_elem_in_lirs(struct Cash *LIRS, int elem);
 void print_cash(struct Cash *LIRS);
 
 
-#define MAX_SIZE_LIRS_STACK 30
-#define MAX_SIZE_COLD_CASH 15
+#define MAX_SIZE_LIRS_STACK 8
+#define MAX_SIZE_COLD_CASH 2
 
 
 enum status
@@ -58,9 +56,9 @@ struct Equal_function
 
 struct Cash
 {
-    list<int> lirs_stack;
-    list<int> cold_cash;
-    unordered_set<struct Hash_map_node, Hash_function, Equal_function> table;
+    std::list<int> lirs_stack;
+    std::list<int> cold_cash;
+    std::unordered_set<struct Hash_map_node, Hash_function, Equal_function> table;
 };
 
 
