@@ -1,9 +1,9 @@
 # LIRS
 >LIRS caching algorithm, perfect caching, gtests
 
-1. Чтобы запустить *алгоритм LIRS* нужно в директории **LIRS**:
-  $make      
-  $./LIRS
+1. Чтобы запустить *алгоритм LIRS* нужно в директории **LIRS**:  
+  $make  
+  $./LIRS  
 1. Чтобы запустить *тестирование алгоритма LIRS* нужно в директории **LIRS_Test**:  
   $make    
   $./LIRS_Test  
