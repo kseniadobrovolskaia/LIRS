@@ -3,17 +3,20 @@
 
 int main()
 {
-	int n, hits;
+	int n, hits, len_cache;
 	std::ifstream data("data.txt");
-	struct Cash *LIRS;
+	struct Cash *Cache;
 
 	for (int k = 0; k < 5; k++)
 	{
-		LIRS = new struct Cash;
+		Cache = new struct Cash;
 		hits = 0;
+		data >> len_cache;
 		data >> n;
 
-		int *numbers = new int[n];
+		Cache->max_size_cash = len_cache;
+
+		int *numbers = new int[n + 1];
 		numbers[0] = n;
 	
 		for (int i = 1; i < n + 1; i++)
@@ -23,10 +26,10 @@ int main()
 
 		for (int i = 1; i < n + 1; i++)
 		{
-			LIRS = append_elem(LIRS, i, &hits, numbers);
+			Cache = append_elem(Cache, i, &hits, numbers);
 		}
 
-		destroy_cache(LIRS);
+		destroy_cache(Cache);
 		printf("For %d elems - %d hits\n", n, hits);
 	}
 
@@ -34,106 +37,109 @@ int main()
 }
 
 
-struct Cash *append_elem(struct Cash *LIRS, int place, int *hits, int *numbers)
+struct Cash *append_elem(struct Cash *Cache, int place, int *hits, int *numbers)
 {
 	int elem;
 	elem = numbers[place];
 
-	if ((LIRS->table).count({1, elem}) == 0)
+	if ((Cache->table).count({1, 1, elem}) == 0)
 	{
-		LIRS = displace_from_cache(LIRS, place, numbers);
-		LIRS = add_in_cache(LIRS, elem);
-		return LIRS;
+		Cache = add_in_cache(Cache, elem, place);
+		Cache = displace_from_cache(Cache, place, numbers);
+		return Cache;
 	}
 
-	if (find_in_cache(LIRS, elem))
+	if (find_in_cache(Cache, elem))
 	{
 		(*hits)++;
+		(Cache->table).erase({1, 1, elem});
+		(Cache->table).insert({1, place, elem});
 	}
 	else
 	{
-		LIRS = add_in_cache(LIRS, elem);
-		LIRS = displace_from_cache(LIRS, place, numbers);
+		Cache = add_in_cache(Cache, elem, place);
+		Cache = displace_from_cache(Cache, place, numbers);
 		
 	}
 
-	return LIRS;
+	return Cache;
 
 }
 
-struct Cash *add_in_cache(struct Cash *LIRS, int elem)
+
+struct Cash *add_in_cache(struct Cash *Cache, int elem, int place)
 {
-	(LIRS->cache).push_front(elem);
-	(LIRS->table).insert({1, elem});
+	(Cache->cache).push_front(elem);
+	(Cache->table).insert({1, place, elem});
 
-	return LIRS;
+	return Cache;
 
 }
 
 
-
-
-int find_in_cache(struct Cash *LIRS, int elem)
+int find_in_cache(struct Cash *Cache, int elem)
 {
 	int is_in_table;
-	is_in_table = (LIRS->table).count({1, elem}); 
-	//is_in_table = (LIRS->table).contains({1, elem}); // -std=c++20
+	is_in_table = (Cache->table).count({1, 1,elem}); 
+	//is_in_table = (Cache->table).contains({1, elem}); // -std=c++20
 
 	if (!is_in_table)
 	{
 		return 0;
 	}
 
-	return ((LIRS->table).find({0, elem}))->be_in_cache;
+	return ((Cache->table).find({0, 1, elem}))->be_in_cache;
 
 }
 
 
-struct Cash *displace_from_cache(struct Cash *LIRS, int place, int *numbers)
+struct Cash *displace_from_cache(struct Cash *Cache, int place, int *numbers)
 {
 	int worst;
 
-	if ((LIRS->cache).size() < MAX_SIZE_CACHE)
+	if ((Cache->cache).size() <= Cache->max_size_cash)
 	{
-		return LIRS;
+		return Cache;
 	}
 
-	worst = find_worst(LIRS, place, numbers);
+	worst = find_worst(Cache, place, numbers);
 
-	auto begin = (LIRS->cache).begin();
+	auto begin = (Cache->cache).begin();
 	
 	while ((*begin) != worst)
 	{
 		begin++;
 	}
 
-	(LIRS->cache).erase(begin);
-	(LIRS->table).erase({1, worst});
-	(LIRS->table).insert({0, worst});
+	(Cache->cache).erase(begin);
+	(Cache->table).erase({1, 1, worst});
+	(Cache->table).insert({0, 1, worst});
 
-	return LIRS;
+	return Cache;
 
 }
 
-int find_worst(struct Cash *LIRS, int place, int *numbers)
+
+int find_worst(struct Cash *Cache, int place, int *numbers)
 {
 	int worst, intervalmax, interval, size, i, curr;
 
 	size = numbers[0];
 
-	intervalmax = 0;
+	intervalmax = -100;
 	interval = 0;
 
-	for (auto elem: LIRS->cache)
+	for (auto elem: Cache->cache)
 	{
-		i = place;
+		i = place + 1;
 		curr = numbers[i];
-		while (curr != elem && i < size + 1)
+		while ((curr != elem) && (i < (size + 1)))
 		{
+			curr = numbers[i];
 			i++;
 		}
-		interval = i;
-		if (i == (size + 1))
+		interval = i - 1 - ((Cache->table).find({0, 1, elem}))->num_place;
+		if (curr != elem)
 		{
 			interval++;
 		}
@@ -145,29 +151,30 @@ int find_worst(struct Cash *LIRS, int place, int *numbers)
 		}
 
 		interval = 0;
-	}
 
+	}
+	
 	return worst;
 
 }
 
 
-void *destroy_cache(struct Cash *LIRS)
+void *destroy_cache(struct Cash *Cache)
 {
-	LIRS->table.clear();;
-	LIRS->cache.clear();
-	free(LIRS);
+	Cache->table.clear();;
+	Cache->cache.clear();
+	free(Cache);
 
 	return NULL;
 
 }
 
 
-void print_cache(struct Cash *LIRS)
+void print_cache(struct Cash *Cache)
 {
 	std::cout << "Cache: ";
 
-	for (auto elem: LIRS->cache)
+	for (auto elem: Cache->cache)
 	{
 		std::cout << elem << " " ;
 	}
