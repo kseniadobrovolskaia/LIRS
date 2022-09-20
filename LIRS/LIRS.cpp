@@ -3,10 +3,13 @@
 
 int main()
 {
-	int n, hits, elem;
+	int n, hits, elem, len_cache;
 	
 	struct Cash *LIRS = new struct Cash;
+	std::cin >> len_cache;
 	std::cin >> n;
+	LIRS->max_size_lirs_stack = len_cache;
+	LIRS->size_cold_cash = len_cache / 2;
 
 	hits = 0;
 
@@ -156,7 +159,7 @@ struct Cash *displace_from_cold(struct Cash *LIRS, int elem)
 {
 	int is_in_stack, first_hir;
 
-	if ((LIRS->cold_cash).size() < MAX_SIZE_COLD_CASH)
+	if ((LIRS->cold_cash).size() <= LIRS->size_cold_cash)
 	{
 		(LIRS->cold_cash).push_front(elem);
 		return LIRS;
@@ -201,7 +204,7 @@ struct Cash *reduction_lirs_stack(struct Cash *LIRS)
 	int first_lir, is_res;
 	first_lir = (LIRS->lirs_stack).back();
 
-	if ((LIRS->lirs_stack).size() < MAX_SIZE_LIRS_STACK)
+	if ((LIRS->lirs_stack).size() <= LIRS->max_size_lirs_stack)
 	{
 		return LIRS;
 	}
@@ -218,7 +221,7 @@ struct Cash *reduction_lirs_stack(struct Cash *LIRS)
 	}
 	else
 	{
-		if ((LIRS->lirs_stack).size() > MAX_SIZE_LIRS_STACK)
+		if ((LIRS->lirs_stack).size() > LIRS->max_size_lirs_stack)
 		{
 			(LIRS->lirs_stack).pop_back();
 			(LIRS->table).erase({lir, 1, first_lir});

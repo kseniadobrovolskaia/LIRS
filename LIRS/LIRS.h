@@ -18,10 +18,6 @@ struct Cash *raise_elem_in_lirs(struct Cash *LIRS, int elem);
 void print_cash(struct Cash *LIRS);
 
 
-#define MAX_SIZE_LIRS_STACK 30
-#define MAX_SIZE_COLD_CASH 15
-
-
 enum status
 {
     lir,
@@ -55,6 +51,8 @@ struct Equal_function
 
 struct Cash
 {
+    long unsigned int size_cold_cash;
+    long unsigned int max_size_lirs_stack;
     std::list<int> lirs_stack;
     std::list<int> cold_cash;
     std::unordered_set<struct Hash_map_node, Hash_function, Equal_function> table;
