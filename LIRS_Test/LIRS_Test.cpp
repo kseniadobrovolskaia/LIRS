@@ -3,7 +3,7 @@
 
 int main()
 {
-	int n, hits, elem;
+	int n, hits, elem, len_cache;
 	FILE *data, *results;
 	int answers[5] = {0};
 	
@@ -12,8 +12,12 @@ int main()
 	for (int i = 0; i < 5; i++)
 	{
 		LIRS = new struct Cash;
+		fscanf(data, "%d", &len_cache);
 		fscanf(data, "%d", &n); 
 		hits = 0;
+
+		LIRS->max_size_lirs_stack = len_cache;
+		LIRS->size_cold_cash = len_cache / 2;
 
 		for (int i = 0; i < n; i++)
 		{
@@ -22,6 +26,7 @@ int main()
 		}
 		answers[i] = hits;
 		printf("For %d elems - %d hits\n", n, hits);
+		//print_cash(LIRS);
 		destroy_cash(LIRS);
 	}
 
@@ -172,7 +177,7 @@ struct Cash *displace_from_cold(struct Cash *LIRS, int elem)
 {
 	int is_in_stack, first_hir;
 
-	if ((LIRS->cold_cash).size() < MAX_SIZE_COLD_CASH)
+	if ((LIRS->cold_cash).size() <= LIRS->size_cold_cash)
 	{
 		(LIRS->cold_cash).push_front(elem);
 		return LIRS;
@@ -217,7 +222,7 @@ struct Cash *reduction_lirs_stack(struct Cash *LIRS)
 	int first_lir, is_res;
 	first_lir = (LIRS->lirs_stack).back();
 
-	if ((LIRS->lirs_stack).size() < MAX_SIZE_LIRS_STACK)
+	if ((LIRS->lirs_stack).size() <= LIRS->max_size_lirs_stack)
 	{
 		return LIRS;
 	}
@@ -234,7 +239,7 @@ struct Cash *reduction_lirs_stack(struct Cash *LIRS)
 	}
 	else
 	{
-		if ((LIRS->lirs_stack).size() > MAX_SIZE_LIRS_STACK)
+		if ((LIRS->lirs_stack).size() > LIRS->max_size_lirs_stack)
 		{
 			(LIRS->lirs_stack).pop_back();
 			(LIRS->table).erase({lir, 1, first_lir});
