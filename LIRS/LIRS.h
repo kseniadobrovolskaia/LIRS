@@ -1,8 +1,13 @@
 #include <stdio.h>
 #include <iostream>
 #include <list>
-#include <unordered_set>
+#include <unordered_map>
+#include <errno.h>
+#include <assert.h>
 
+
+
+struct Cash *create_Cash(int len_cache);
 void *destroy_cash(struct Cash *LIRS);
 struct Cash *append_elem(struct Cash *LIRS, int elem, int *hits);
 int get_status(struct Hash_map table, int elem);
@@ -18,43 +23,33 @@ struct Cash *raise_elem_in_lirs(struct Cash *LIRS, int elem);
 void print_cash(struct Cash *LIRS);
 
 
+
+
+
 enum status
 {
     lir,
     res_hir,
     non_res_hir,
-    nothing
 };
 
 struct Hash_map_node
 {
     status st;
-    int be_in_stack;
-    int num;
+    int be_in_stack = 0;
+    int be_in_cold = 0;
+    std::list<int>::iterator pos_lirs;
+    std::list<int>::iterator pos_cold;
 };
 
-struct Hash_function
-{
-    size_t operator()(struct Hash_map_node elem) const
-    {
-        return elem.num;
-    };
-};
-
-struct Equal_function
-{
-    int operator()(struct Hash_map_node elem1, struct Hash_map_node elem2) const
-    {
-        return (elem1.num) == (elem2.num);
-    };
-};
 
 struct Cash
 {
-    long unsigned int size_cold_cash;
-    long unsigned int max_size_lirs_stack;
+    long unsigned int Lhirs;
+    long unsigned int count_lirs;
+    long unsigned int Llirs;
     std::list<int> lirs_stack;
     std::list<int> cold_cash;
-    std::unordered_set<struct Hash_map_node, Hash_function, Equal_function> table;
+    std::unordered_map<int, struct Hash_map_node> table;
 };
 
