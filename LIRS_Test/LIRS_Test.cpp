@@ -9,14 +9,14 @@ int main()
 	FILE *data, *results;
 	int answers[5] = {0};
 
-	data = fopen("012.dat", "r");
+	data = fopen("data.txt", "r");
 	if (!data)
 	{
 		perror("fopen");
 		return 0;
 	}
 
-	for (int num_test = 0; num_test < 1; num_test++)
+	for (int num_test = 0; num_test < 5; num_test++)
 	{
 		int len_cache = get_num(data),
 	    count_nums = get_num(data);
@@ -41,7 +41,7 @@ int main()
 	fclose(data);
 	
 	results = fopen("build/results.txt", "w");
-	for (int num_test = 0; num_test < 1; num_test++)
+	for (int num_test = 0; num_test < 5; num_test++)
 	{
 		fprintf(results, "%d ", answers[num_test]);
 	}

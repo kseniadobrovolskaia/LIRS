@@ -50,6 +50,7 @@ struct Cash *append_elem(struct Cash *LIRS, int elem, int *hits)
 	}
 	else
 	{
+		(*hits)++;
 		return visit_non_res_hir(LIRS, elem);
 	}
 
