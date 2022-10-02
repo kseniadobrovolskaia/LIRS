@@ -2,7 +2,7 @@
 CC=g++
 CFLAGS=-c -Wall -std=c++20 
 LDFLAGS=
-SOURCES=LIRS_Test.cpp LIRS.h
+SOURCES=LIRS_Test.cpp LIRS.cpp LIRS.h
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=LIRS_Test
 
