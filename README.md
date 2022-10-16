@@ -12,4 +12,4 @@
   $ctest  
 1. Чтобы запустить *идеальное кэширование* нужно в директории **Perfect_Cash**:  
   $make  
-  $./Perfect_Cash  
+  $./Perfect_Cash.exe  
