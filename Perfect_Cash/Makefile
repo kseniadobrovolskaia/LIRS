@@ -1,17 +1,17 @@
-
-CC=g++
-CFLAGS=-c -Wall -std=c++20 
+СXX?= g++
+CXXFLAGS?= -Wall -std=c++2a -g
 LDFLAGS=
-SOURCES=Perfect_Cash.cpp Perfect_Cash.h
+SOURCES= main.cpp Perfect_Cash.cpp Perfect_Cash.hpp
 OBJECTS=$(SOURCES:.cpp=.o)
-EXECUTABLE=Perfect_Cash
+EXECUTABLE=Perfect_Cash.exe
 
 all: $(SOURCES) $(EXECUTABLE)
 	
 $(EXECUTABLE): $(OBJECTS) 
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+	$(CXX) $(LDFLAGS) $(OBJECTS) -o $@
 
 .cpp.o:
-	$(CC) $(CFLAGS) $< -o $@
+	$(CXX) -c $(CXXFLAGS) $<
 
-
+clean:
+	rm -rf *.o *.exe
