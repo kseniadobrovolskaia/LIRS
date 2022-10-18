@@ -1,14 +1,14 @@
-CXX?=g++
-CXXFLAGS?=-Wall -std=c++2a
+СXX?= g++
+CXXFLAGS?= -Wall -std=c++2a -g
 LDFLAGS=
-SOURCES= LIRS.h LIRS.cpp main.cpp
+SOURCES= LIRS.cpp LIRS.hpp
 OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=LIRS.exe
 
 all: $(SOURCES) $(EXECUTABLE)
 	
 $(EXECUTABLE): $(OBJECTS) 
-	$(CXX) $(LDFLAGS) $(OBJECTS) -o $@
+	$(CXX) $(LDFLAGS) $(CXXFLAGS) $(OBJECTS) -o $@
 
 .cpp.o:
 	$(CXX) -c $(CXXFLAGS) $<
