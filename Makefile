@@ -10,9 +10,11 @@ export CXX CXXFLAGS
 subsystem:
 	cd Perfect_Cash && $(MAKE)
 	cd LIRS && $(MAKE)
+	cd LIRS_Test && $(MAKE)
 
 clean:
 	cd Perfect_Cash && $(MAKE) $@
 	cd LIRS && $(MAKE) $@
+	cd LIRS_Test && $(MAKE) $@
 
 
