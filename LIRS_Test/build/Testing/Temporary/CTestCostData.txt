@@ -1,8 +1,0 @@
-TestHits.Test1 0 0
-TestHits.Test2 5 0.000318647
-TestHits.Test3 5 0.000307001
-TestHits.Test4 0 0
-TestHits.Test5 5 0.000330676
----
-TestHits.Test1
-TestHits.Test4
