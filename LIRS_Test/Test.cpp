@@ -1,39 +1,81 @@
-#include "Test.h"
+#include "Test.hpp"
 
 
 
-TEST(TestHits, Test1)
+
+//-----------------Test_LIRS--------------------------
+
+TEST(Test_Hits_LIRS, Test1)
 {
-
-  EXPECT_EQ(get_answer(0), get_result(0));
+  EXPECT_EQ(read_file(answers_lirs, 1), read_file(results_lirs, 1));
 
 }
 
-TEST(TestHits, Test2)
+TEST(Test_Hits_LIRS, Test2)
 {
 
-  EXPECT_EQ(get_answer(1), get_result(1));
+  EXPECT_EQ(read_file(answers_lirs, 2), read_file(results_lirs, 2));
 
 }
 
-TEST(TestHits, Test3)
+TEST(Test_Hits_LIRS, Test3)
 {
 
-  EXPECT_EQ(get_answer(2), get_result(2));
+  EXPECT_EQ(read_file(answers_lirs, 3), read_file(results_lirs, 3));
 
 }
 
-TEST(TestHits, Test4)
+TEST(Test_Hits_LIRS, Test4)
 {
 
-  EXPECT_EQ(get_answer(3), get_result(3));
+  EXPECT_EQ(read_file(answers_lirs, 4), read_file(results_lirs, 4));
 
 }
 
-TEST(TestHits, Test5)
+TEST(Test_Hits_LIRS, Test5)
 {
 
-  EXPECT_EQ(get_answer(4), get_result(4));
+  EXPECT_EQ(read_file(answers_lirs, 5), read_file(results_lirs, 5));
 
 }
+
+
+//-----------------Test_Perfect_Cash-----------------
+
+
+TEST(Test_Hits_Perfect_Cash, Test1)
+{
+
+  EXPECT_EQ(read_file(answers_perf, 1), read_file(results_perf, 1));
+
+}
+
+TEST(Test_Hits_Perfect_Cash, Test2)
+{
+
+  EXPECT_EQ(read_file(answers_perf, 2), read_file(results_perf, 2));
+
+}
+
+TEST(Test_Hits_Perfect_Cash, Test3)
+{
+
+  EXPECT_EQ(read_file(answers_perf, 3), read_file(results_perf, 3));
+
+}
+
+TEST(Test_Hits_Perfect_Cash, Test4)
+{
+
+  EXPECT_EQ(read_file(answers_perf, 4), read_file(results_perf, 4));
+
+}
+
+TEST(Test_Hits_Perfect_Cash, Test5)
+{
+
+  EXPECT_EQ(read_file(answers_perf, 5), read_file(results_perf, 5));
+
+}
+
 

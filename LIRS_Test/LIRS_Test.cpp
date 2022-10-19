@@ -1,67 +1,43 @@
-#include "LIRS.h"
+#include "LIRS_Test.hpp"
 
 
-int get_num(FILE *data);
 
 
 int main()
 {
-	FILE *data, *results;
-	int answers[5] = {0};
+	std::ifstream data;
 
-	data = fopen("data.txt", "r");
-	if (!data)
-	{
-		perror("fopen");
-		return 0;
-	}
+	int answers_lirs[5] = {0};
+	int answers_perf[5] = {0};
+	int len_cache, count_nums;
 
+	data.open("data.txt");
+	
 	for (int num_test = 0; num_test < 5; num_test++)
 	{
-		int len_cache = get_num(data),
-	    count_nums = get_num(data);
+		data >> len_cache >> count_nums;
 
-		struct Cash *LIRS = create_Cash(len_cache);
+		int *numbers = new int[count_nums + 10];
+		numbers[0] = count_nums;
 
-		int hits = 0;
-
-		for (int num = 0; num < count_nums; num++)
+		for (int i = 1; i < count_nums + 1; i++)
 		{
-			LIRS = append_elem(LIRS, get_num(data), &hits);
+			data >> numbers[i];
 		}
 
-		destroy_cash(LIRS);
+		answers_perf[num_test] = hits_for_perf(len_cache, count_nums, numbers);
 
-		answers[num_test] = hits;
+		answers_lirs[num_test] = hits_for_lirs(len_cache, count_nums, numbers);
 
-		printf("For %d elems (size of cache %d) - %d hits\n", count_nums, len_cache, hits);
-
+		std::cout << "For " << count_nums << " elems (size of cache " << len_cache << "):" << std::endl;
+		std::cout << "Perfect_Cash: " << answers_perf[num_test] << std::endl;
+		std::cout << "LIRS: " << answers_lirs[num_test] << std::endl;
 	}
 
-	fclose(data);
+	data.close();
 	
-	results = fopen("build/results.txt", "w");
-	for (int num_test = 0; num_test < 5; num_test++)
-	{
-		fprintf(results, "%d ", answers[num_test]);
-	}
-	
-	fclose(results);
+	print_in_files(answers_lirs, answers_perf);
 
 	return 0;
-}
-
-
-int get_num(FILE *data)
-{
-	int elem;
-
-	if (!fscanf(data, "%d", &elem))
-	{
-		perror("fscanf");
-		_Exit(1);
-	}
-
-	return elem;
 }
 
