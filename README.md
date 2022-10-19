@@ -6,7 +6,7 @@
   $./LIRS.exe  
 1. Чтобы запустить *тестирование алгоритма LIRS* нужно в директории **LIRS_Test**:  
   $make    
-  $./LIRS_Test  
+  $./LIRS_Test.exe  
   $cmake --build build  
   $cd build    
   $ctest  
