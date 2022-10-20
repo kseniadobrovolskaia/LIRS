@@ -38,7 +38,7 @@ namespace Perfect_Cash
         {
             int worst;
 
-            if (size < max_size_cash)
+            if (size <= max_size_cash)
             {
                 size++;
                 return;
@@ -109,6 +109,8 @@ namespace Perfect_Cash
             int elem;
             elem = numbers[place];
 
+            (table[elem].positions).pop_front();
+
             if (table[elem].be_in_cache)
             {
                 (*hits)++;
@@ -116,8 +118,8 @@ namespace Perfect_Cash
             }
             else
             {
-                displace_from_cache(place, numbers); 
-                add_in_cache(elem, place);       
+                add_in_cache(elem, place); 
+                displace_from_cache(place, numbers);         
             }
         }
 
